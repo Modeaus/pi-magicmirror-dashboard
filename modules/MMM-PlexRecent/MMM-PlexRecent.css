@@ -1,0 +1,41 @@
+.MMM-PlexRecent .module-header {
+	font-size: 0.72rem;
+	letter-spacing: 2px;
+	opacity: 0.6;
+	text-transform: uppercase;
+}
+.plexrecent {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 620px;
+	margin: 0 auto;
+}
+.plexrecent-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	padding: 9px 6px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+	font-size: 14px;
+}
+.plexrecent-row:last-child { border-bottom: none; }
+.plexrecent-row .mdi { font-size: 19px; color: #e5a00d; flex: 0 0 auto; }
+.plexrecent-title {
+	flex: 1 1 auto;
+	text-align: left;
+	color: #d8dee6;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.plexrecent-when {
+	flex: 0 0 auto;
+	color: #7d858f;
+	font-size: 12px;
+}
+.plexrecent-empty {
+	color: #7d858f;
+	font-size: 13px;
+	padding: 12px;
+}

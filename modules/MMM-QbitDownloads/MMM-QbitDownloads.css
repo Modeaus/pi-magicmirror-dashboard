@@ -1,0 +1,73 @@
+.MMM-QbitDownloads .module-header {
+	font-size: 0.72rem;
+	letter-spacing: 2px;
+	opacity: 0.6;
+	text-transform: uppercase;
+}
+
+.qbit {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	text-align: left;
+}
+
+.qbit-sec {
+	font-size: 0.58rem;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink-dim);
+	margin: 12px 0 4px;
+	padding-bottom: 3px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.qbit-sec:first-child { margin-top: 2px; }
+.qbit-sec-dl { color: #6fb7ff; border-color: rgba(111, 183, 255, 0.3); }
+.qbit-sec-done { color: #63c69b; border-color: rgba(99, 198, 155, 0.3); }
+
+.qbit-row { padding: 5px 2px; font-size: 12.5px; }
+.qbit-row + .qbit-row { border-top: 1px solid rgba(255, 255, 255, 0.05); }
+
+.qbit-title {
+	color: #d8dee6;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* --- downloading rows: title, bar, meta --- */
+.qbit-dl .qbit-title { margin-bottom: 4px; }
+.qbit-bar {
+	height: 4px;
+	border-radius: 3px;
+	background: rgba(255, 255, 255, 0.09);
+	overflow: hidden;
+}
+.qbit-bar-fill {
+	height: 100%;
+	border-radius: 3px;
+	background: #4fc3f7;
+	transition: width 0.6s ease;
+}
+.qbit-bar-fill.stalled { background: #8a94a0; }
+.qbit-meta {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 3px;
+	font-size: 11px;
+	color: var(--ink-dim);
+}
+.qbit-meta-r { color: #9aa2ad; }
+
+/* --- completed rows: icon · title · when --- */
+.qbit-done {
+	display: flex;
+	align-items: center;
+	gap: 9px;
+}
+.qbit-done .mdi { font-size: 16px; color: #63c69b; flex: 0 0 auto; }
+.qbit-done .qbit-title { flex: 1 1 auto; }
+.qbit-when { flex: 0 0 auto; color: #7d858f; font-size: 11px; }
+
+.qbit-empty { color: #7d858f; font-size: 12px; padding: 5px 2px; }
+.qbit-empty.qbit-err { color: #e08585; }

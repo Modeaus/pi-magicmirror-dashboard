@@ -1,0 +1,322 @@
+/* custom.css — LANDSCAPE (1024 x 600) tabbed dashboard.
+ * On the Pi: ~/MagicMirror/config/custom.css  (swapped in by `mm-profile landscape`)
+ * Sidebar styling: modules/MMM-Sidebar/MMM-Sidebar.css
+ * House page styling: modules/MMM-HAPanel/MMM-HAPanel.css
+ *
+ * NOTE: MM wraps every region's modules in a <div class="container">. We set that
+ * to `display: contents` so the .module elements are direct flex children of the
+ * region and our `> .module` rules + flex layout work.
+ */
+
+:root {
+	--gap-body-top: 0px;
+	--gap-body-right: 0px;
+	--gap-body-bottom: 0px;
+	--gap-body-left: 0px;
+
+	--bar-w: 78px;
+	--top-h: 88px;
+
+	--bg: #090c12;
+	--card: rgba(255, 255, 255, 0.055);
+	--card-brd: rgba(255, 255, 255, 0.11);
+	--ink: #e8eaed;
+	--ink-dim: #99a1ac;
+	--accent: #4fc3f7;
+}
+
+html,
+body {
+	margin: 0 !important;
+	padding: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	inset: 0 !important;
+	overflow: hidden !important;
+	background:
+		radial-gradient(1200px 700px at 78% -10%, #17202e 0%, rgba(23, 32, 46, 0) 60%),
+		var(--bg);
+	color: var(--ink);
+}
+.module { text-shadow: 0 1px 3px rgba(0, 0, 0, 0.75); color: var(--ink); }
+.module-header {
+	font-size: 0.72rem !important;
+	letter-spacing: 2.5px;
+	text-transform: uppercase;
+	color: var(--ink-dim) !important;
+	border-bottom: 1px solid var(--card-brd) !important;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+}
+
+/* =========================================================
+   TOP BAR — local clock · GMT clock · current temp
+   ========================================================= */
+.region.top.center {
+	left: var(--bar-w) !important;
+	right: 0 !important;
+	top: 0 !important;
+	width: auto !important;
+	transform: none !important;
+	height: var(--top-h);
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 6px 40px 6px 26px;
+	box-sizing: border-box;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.30));
+	border-bottom: 1px solid var(--card-brd);
+	z-index: 400;
+}
+.region.top.center > .container {
+	display: flex !important;
+	flex-direction: row;
+	align-items: center;
+	width: 100%;
+	gap: 26px;
+}
+.region.top.center .module { margin: 0 !important; }
+
+/* local clock: big time on top, small date underneath */
+.region.top.center .clock-local { text-align: left; }
+.region.top.center .clock-local .digital { display: flex; flex-direction: column-reverse; line-height: 1.02; }
+.region.top.center .clock-local .time { font-size: 2.6rem !important; font-weight: 300; letter-spacing: 1px; }
+.region.top.center .clock-local .date {
+	font-size: 0.72rem !important;
+	font-weight: 400;
+	letter-spacing: 1.6px;
+	text-transform: uppercase;
+	color: var(--ink-dim);
+	margin-top: 3px;
+	display: block !important;
+}
+
+/* GMT clock: smaller, labelled */
+.region.top.center .clock-gmt {
+	text-align: left;
+	padding-left: 26px;
+	border-left: 1px solid var(--card-brd);
+}
+.region.top.center .clock-gmt .digital { line-height: 1.02; }
+/* ~75% of the main clock's 2.6rem time */
+.region.top.center .clock-gmt .time { font-size: 1.95rem !important; font-weight: 300; color: #c9d1d9; letter-spacing: 1px; }
+.region.top.center .clock-gmt .digital::after {
+	content: "GMT";
+	display: block;
+	font-size: 0.68rem;
+	letter-spacing: 2px;
+	color: var(--ink-dim);
+	margin-top: 2px;
+}
+
+/* current temp: sits right after the clocks, tappable */
+.region.top.center .module.weather {
+	text-align: left;
+	opacity: 0.95;
+	white-space: nowrap;
+}
+.region.top.center .weather * { font-weight: 300 !important; }
+.region.top.center .weather .large,
+.region.top.center .weather .weather-module { font-size: 1.35rem !important; }
+.region.top.center .weather .weathericon { font-size: 1.1rem; }
+
+.region.top.bar { left: var(--bar-w) !important; top: 0 !important; }
+
+/* =========================================================
+   MAIN CONTENT — active page renders here.
+   Row-wrap flex: news is 3-up, home is 2-up, everything else stacks.
+   ========================================================= */
+.region.middle.center {
+	left: var(--bar-w) !important;
+	right: 0 !important;
+	top: var(--top-h) !important;
+	bottom: 0 !important;
+	width: auto !important;
+	height: auto !important;
+	transform: none !important;
+	text-align: center;
+}
+/* flex the container itself (MM's per-region module wrapper) */
+.region.middle.center > .container {
+	display: flex !important;
+	flex-flow: row wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	justify-content: center;
+	gap: 14px 16px;
+	width: 100%;
+	height: 100%;
+	padding: 16px 24px;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+.region.middle.center > .container > .module {
+	width: 100%;
+	max-width: 900px;
+	margin: 0 !important;
+	background: var(--card) !important;
+	border: 1px solid var(--card-brd) !important;
+	border-radius: 16px !important;
+	padding: 14px 18px !important;
+	box-sizing: border-box;
+	box-shadow: 0 2px 14px rgba(0, 0, 0, 0.25);
+}
+
+/* ---- Home: forecast + coming-up side by side, notifications below ---- */
+.region.middle.center > .container > .module.page-home {
+	width: calc(50% - 8px);
+	max-width: none;
+	align-self: stretch;
+}
+.page-home.weather table { width: 100%; font-size: 1rem; }
+.page-home.weather td { padding: 3px 6px; }
+.page-home.calendar .event { font-size: 1.05rem; padding: 4px 2px; }
+.page-home.calendar .time { font-size: 0.88rem; color: var(--ink-dim); }
+
+.region.middle.center > .container > .module.MMM-HomeNotifications {
+	order: 5;
+	width: 100%;
+	max-width: 900px;
+	align-self: stretch;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	padding: 2px 4px !important;
+}
+
+/* ---- Weather page: hourly chart + 7-day ---- */
+.region.middle.center > .container > .module.MMM-HourlyChart { max-width: 800px; }
+.region.middle.center > .container > .module.page-weather.weather { max-width: 560px; }
+.page-weather.weather table { width: 100%; margin: 0 auto; }
+.page-weather.weather td { padding: 4px 6px; font-size: 0.92rem; }
+
+/* ---- House: no outer card (module draws its own) ---- */
+.region.middle.center > .container > .module.MMM-HAPanel {
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+	max-width: 940px;
+	padding: 6px 4px !important;
+}
+
+/* ---- Calendar month grid: fill the viewport (clear of the top bar) ---- */
+.region.middle.center > .container > .module.MMM-MonthlyCalendar {
+	width: 100%;
+	max-width: none;
+	padding: 8px 8px 4px !important;
+	background: transparent !important;
+	border: none !important;
+	align-self: flex-start;
+}
+.MMM-MonthlyCalendar table.wrapper {
+	width: 100%;
+	height: calc(100vh - var(--top-h) - 60px);
+	table-layout: fixed;
+	border-collapse: separate;
+	border-spacing: 3px;
+}
+.MMM-MonthlyCalendar table.wrapper th.header {
+	font-size: 0.58rem;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	color: var(--ink-dim);
+	padding-bottom: 3px;
+	text-align: center;
+}
+.MMM-MonthlyCalendar table.wrapper td.cell {
+	background: var(--card);
+	border: 1px solid var(--card-brd);
+	border-radius: 8px;
+	vertical-align: top;
+	padding: 2px 4px 3px;
+	font-size: 0.62rem;
+	overflow: hidden;
+	line-height: 1.2;
+}
+.MMM-MonthlyCalendar table.wrapper td.cell > div:first-child {
+	font-weight: 600;
+	opacity: 0.85;
+	margin-bottom: 1px;
+}
+.MMM-MonthlyCalendar table.wrapper td.today {
+	background: rgba(79, 195, 247, 0.16) !important;
+	border-color: rgba(79, 195, 247, 0.55);
+}
+.MMM-MonthlyCalendar table.wrapper td.other-month { filter: none; opacity: 0.32; }
+.MMM-MonthlyCalendar table.wrapper td.past-date { filter: none; opacity: 0.62; }
+.MMM-MonthlyCalendar .event {
+	display: block;
+	border-radius: 4px;
+	padding: 0 3px;
+	margin-top: 2px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.35;
+	font-size: 0.56rem;
+}
+.MMM-MonthlyCalendar .event-label { padding-right: 0.4ex; opacity: 0.75; }
+
+/* ---- Plex page: two columns ----
+   left  = recently-watched (MMM-PlexRecent), or now-playing while something plays
+   right = qBittorrent downloads (MMM-QbitDownloads) */
+.region.middle.center > .container > .module.page-plex {
+	max-width: none;
+	align-self: stretch;
+	overflow: hidden;
+}
+.region.middle.center > .container > .module.plex-col-left  { width: calc(56% - 8px); }
+.region.middle.center > .container > .module.plex-col-right { width: calc(44% - 8px); }
+.page-plex .module-header { text-align: left; }
+.page-plex.MMM-PlexRecent .plexrecent { max-width: none; }
+.page-plex.MMM-PlexNowPlaying .nowPlayingContainer { justify-content: flex-start; }
+
+/* ---- Cameras page (page 6): fill the area, no card chrome ---- */
+.region.middle.center > .container > .module.page-cameras {
+	width: 100%;
+	max-width: none;
+	height: calc(100vh - var(--top-h) - 40px);
+	display: flex;
+	flex-direction: column;
+	padding: 2px !important;
+	background: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+	overflow: hidden;
+}
+.module.page-cameras > .module-content { flex: 1 1 auto; min-height: 0; display: flex; }
+.module.page-cameras .camw { flex: 1 1 auto; min-height: 0; display: flex; }
+.module.page-cameras .camw-grid { flex: 1 1 auto; min-height: 0; }
+.module.page-cameras .camw-grid.camw-n3,
+.module.page-cameras .camw-grid.camw-n4 { grid-template-rows: 1fr 1fr; grid-auto-rows: unset; }
+
+/* ---- News: three columns ---- */
+.region.middle.center > .container > .module.newsfeed {
+	width: calc(33.333% - 11px) !important;
+	max-width: none;
+	align-self: stretch;
+	padding: 12px 14px !important;
+}
+.newsfeed .newsfeed-header { display: none; }
+.module.newsfeed .module-header { text-align: left; }
+.newsfeed ul,
+.newsfeed .newsfeed-list { padding: 0; margin: 0; list-style: none; text-align: left; }
+.newsfeed li,
+.newsfeed .newsfeed-item { margin: 0 0 9px 0; text-align: left; }
+.newsfeed .newsfeed-title { font-size: 0.8rem; line-height: 1.3; display: block; text-align: left; }
+.newsfeed .newsfeed-source,
+.newsfeed .newsfeed-desc { font-size: 0.64rem; color: var(--ink-dim); }
+.news-general .module-header { color: #7fb2ff !important; border-color: rgba(127, 178, 255, 0.35) !important; }
+.news-tech .module-header { color: #7ee3c7 !important; border-color: rgba(126, 227, 199, 0.35) !important; }
+.news-gaming .module-header { color: #d7a0ff !important; border-color: rgba(215, 160, 255, 0.35) !important; }
+
+/* =========================================================
+   misc
+   ========================================================= */
+body,
+.module {
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-touch-callout: none;
+}

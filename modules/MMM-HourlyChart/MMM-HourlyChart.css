@@ -1,0 +1,48 @@
+.MMM-HourlyChart .module-header {
+	font-size: 0.72rem;
+	letter-spacing: 2.5px;
+	text-transform: uppercase;
+	color: #99a1ac;
+}
+.hourlychart {
+	width: 100%;
+	max-width: 780px;
+	margin: 0 auto;
+	color: #99a1ac;
+	font-size: 0.9rem;
+}
+.hc-svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+.hc-line {
+	fill: none;
+	stroke: #ffb74d;
+	stroke-width: 2.5;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+.hc-dot { fill: #ffb74d; }
+.hc-temp {
+	fill: #f3f4f6;
+	font-size: 18px;
+	font-weight: 600;
+	text-anchor: middle;
+}
+.hc-icon {
+	font-family: "Material Design Icons";
+	font-size: 21px;
+	text-anchor: middle;
+	fill: #cdd3db;
+}
+.hc-hour {
+	fill: #8b949e;
+	font-size: 14px;
+	text-anchor: middle;
+	letter-spacing: 0.5px;
+}
+.hc-precip { fill: rgba(79, 135, 199, 0.55); }
+.hc-precip-label {
+	fill: #6fa8dc;
+	font-size: 12px;
+	text-anchor: middle;
+}

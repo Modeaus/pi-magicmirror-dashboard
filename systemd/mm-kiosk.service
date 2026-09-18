@@ -1,0 +1,24 @@
+[Unit]
+Description=MagicMirror Chromium kiosk (X)
+After=mm-serveronly.service systemd-user-sessions.target
+Wants=mm-serveronly.service
+ConditionPathExists=/dev/tty1
+
+[Service]
+Type=simple
+User=REPLACE_WITH_YOUR_USER
+PAMName=login
+TTYPath=/dev/tty1
+StandardInput=tty
+StandardOutput=journal
+StandardError=journal
+PermissionsStartOnly=true
+ExecStartPre=/usr/bin/chvt 1
+ExecStart=/usr/bin/xinit /home/REPLACE_WITH_YOUR_USER/kiosk.sh -- :0 vt1 -nolisten tcp -keeptty
+Restart=always
+RestartSec=5
+# give the display/network a moment on cold boot
+ExecStartPre=/bin/sleep 5
+
+[Install]
+WantedBy=multi-user.target

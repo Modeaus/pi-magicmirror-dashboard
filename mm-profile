@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# mm-profile — switch the mirror between saved display profiles.
+#   mm-profile              show current + available
+#   mm-profile <name>       activate a profile (copies its config.js + custom.css,
+#                           sets rotation + window size in kiosk.sh, restarts)
+#
+# Profiles live in ~/MagicMirror/config/profiles/<name>/ :
+#   config.js  custom.css  display.conf
+#   display.conf:  ROTATE=normal|left|right   SIZE=WxH   TOUCH="9 matrix values"
+#   (TOUCH = xinput Coordinate Transformation Matrix; identity "1 0 0 0 1 0 0 0 1"
+#    for ROTATE=normal, "0 -1 1 1 0 0 0 0 1" for ROTATE=left)
+#
+# Credentials are NOT part of a profile — they live in ~/MagicMirror/config/secrets.js
+# (both profiles' config.js require() it). This script never touches that file.
+set -euo pipefail
+
+MM=~/MagicMirror
+PROFILES="$MM/config/profiles"
+KIOSK=~/kiosk.sh
+ACTIVE_FILE="$MM/config/.active-profile"
+
+list() {
+	echo "active: $(cat "$ACTIVE_FILE" 2>/dev/null || echo '?')"
+	echo "available:"
+	for d in "$PROFILES"/*/; do [ -d "$d" ] && echo "  - $(basename "$d")"; done
+}
+
+[ $# -eq 0 ] && { list; exit 0; }
+
+NAME="$1"
+DIR="$PROFILES/$NAME"
+[ -d "$DIR" ] || { echo "no such profile: $NAME"; list; exit 1; }
+[ -f "$DIR/config.js" ] && [ -f "$DIR/custom.css" ] || { echo "$NAME is missing config.js/custom.css"; exit 1; }
+
+# 1. swap the active config + css
+cp "$DIR/config.js"  "$MM/config/config.js"
+cp "$DIR/custom.css" "$MM/config/custom.css"
+
+# 2. apply rotation + window size to kiosk.sh
+if [ -f "$DIR/display.conf" ]; then
+	# shellcheck disable=SC1090
+	. "$DIR/display.conf"
+	[ -n "${ROTATE:-}" ] && sed -i "s|--rotate [a-z]*|--rotate $ROTATE|" "$KIOSK"
+	[ -n "${SIZE:-}" ]   && sed -i "s|--window-size=[0-9]*,[0-9]*|--window-size=${SIZE/x/,}|" "$KIOSK"
+	[ -n "${TOUCH:-}" ]  && sed -i "s|\"Coordinate Transformation Matrix\" .*|\"Coordinate Transformation Matrix\" $TOUCH|" "$KIOSK"
+fi
+
+echo "$NAME" > "$ACTIVE_FILE"
+
+# 3. restart
+sudo systemctl restart mm-serveronly
+sleep 4
+pkill -f "chromium --show" || true
+
+echo "switched to '$NAME'  (rotate=${ROTATE:-unchanged} size=${SIZE:-unchanged})"

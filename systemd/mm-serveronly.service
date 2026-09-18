@@ -1,0 +1,19 @@
+[Unit]
+Description=MagicMirror (serveronly)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=REPLACE_WITH_YOUR_USER
+WorkingDirectory=/home/REPLACE_WITH_YOUR_USER/MagicMirror
+ExecStart=/usr/bin/node serveronly
+Restart=always
+RestartSec=10
+Environment=NODE_ENV=production
+# modest memory ceiling so a leak can't OOM a 1GB Pi; systemd restarts it
+MemoryHigh=350M
+MemoryMax=450M
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+node_modules/
+config/secrets.js
+config/config.js
+config/custom.css
+config/.active-profile
+*.bak
+*.bak-*
+*.bak2-*
+*.bak3-*
+*.bak4-*
+*.bak.*
+*.log
+.DS_Store
