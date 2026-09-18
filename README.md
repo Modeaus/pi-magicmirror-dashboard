@@ -2,20 +2,16 @@
 
 A [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror) build running
 headless (`serveronly`) on a Raspberry Pi with a Chromium kiosk browser
-driving a small touchscreen panel. Two swappable layouts — a 6-tab landscape
-dashboard and a portrait "at-a-glance" view — plus a handful of custom
-modules for Home Assistant, Plex, qBittorrent, and a couple of one-off
-integrations.
+driving a small touchscreen panel. A 6-tab landscape dashboard, plus a
+handful of custom modules for Home Assistant, Plex, qBittorrent, and a
+couple of one-off integrations.
 
 ## What's here
 
-- **Landscape profile** (1024×600) — sidebar-driven tabs: Home (forecast +
+- **Landscape layout** (1024×600) — sidebar-driven tabs: Home (forecast +
   upcoming events + alert chips), Weather (12-hour chart), Calendar (month
   grid), Plex (now playing / recently watched / downloads), House (Home
   Assistant panel), News, and a camera wall reached from the House tab.
-- **Portrait profile** (600×1024) — always-on glance view: clock, weather,
-  a couple of live Home Assistant readouts, a day/week calendar toggle, and
-  Plex now-playing.
 - **Custom modules** (`modules/`) — Home Assistant light/sensor panels and
   touch toggles, a Plex now-playing/recently-watched pair, a qBittorrent
   downloads list, a camera wall with tap-to-fullscreen, a small top-bar
@@ -25,9 +21,10 @@ integrations.
   the MagicMirror Node server headless; `mm-kiosk.service` + `kiosk.sh` bring
   up an X session and a Chromium kiosk window pointed at it on boot, with
   touch-rotation handling.
-- **`mm-profile`** — switches between the two layouts (copies the chosen
-  profile's `config.js`/`custom.css` into place, applies its rotation/window
-  size to `kiosk.sh`, restarts the server).
+- **`mm-profile`** — copies a saved layout's `config.js`/`custom.css` into
+  place, applies its rotation/window size to `kiosk.sh`, and restarts the
+  server. Only `landscape` ships here, but the mechanism supports adding
+  your own under `config/profiles/<name>/`.
 
 ## Setup
 
@@ -38,8 +35,8 @@ integrations.
    Home Assistant host/token, Plex host/token, qBittorrent host, weather
    coordinates, and calendar iCal URLs. This file is gitignored — never
    commit your real one.
-3. Pick a profile: `./mm-profile landscape` or `./mm-profile portrait`. Edit
-   `config/profiles/<name>/display.conf` first if your panel's resolution,
+3. Activate it: `./mm-profile landscape`. Edit
+   `config/profiles/landscape/display.conf` first if your panel's resolution,
    rotation, or touch calibration differs from the defaults.
 4. For each custom module under `modules/`, run `npm install` inside its
    directory if it has a `package.json`.
