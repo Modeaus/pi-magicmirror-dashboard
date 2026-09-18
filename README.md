@@ -9,8 +9,8 @@ couple of one-off integrations.
 ## What's here
 
 - **Landscape layout** (1024×600) — sidebar-driven tabs: Home (forecast +
-  upcoming events + alert chips), Weather (12-hour chart), Calendar (month
-  grid), Plex (now playing / recently watched / downloads), House (Home
+  upcoming events + alert chips), Weather (12-hour chart), Calendar (rolling
+  month grid), Plex (now playing / recently watched / downloads), House (Home
   Assistant panel), News, and a camera wall reached from the House tab.
 - **Custom modules** (`modules/`) — Home Assistant light/sensor panels and
   touch toggles, a Plex now-playing/recently-watched pair, a qBittorrent

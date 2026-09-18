@@ -37,7 +37,7 @@ module.exports = {
 	// "Secret address in iCal format"). Any subset is fine; missing keys are
 	// just skipped in config.js.
 	CALENDARS: {
-		school: "",
+		household: "",
 		personal: "",
 		family: "",
 		holidays: "https://ics.calendarlabs.com/76/mm3137/US_Holidays.ics"

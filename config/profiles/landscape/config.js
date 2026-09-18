@@ -61,7 +61,7 @@ const CAMERA_MOTION = S.CAMERA_MOTION || [
 ];
 
 const CALENDARS = [
-	{ symbol: "school", color: "#66bb6a", url: CAL.school },
+	{ symbol: "home-variant", color: "#66bb6a", url: CAL.household },
 	{ symbol: "account", color: "#ffb74d", url: CAL.personal },
 	{ symbol: "account-group", color: "#ce93d8", url: CAL.family },
 	{ symbol: "flag-usa", color: "#7fb2ff", url: CAL.holidays, fetchInterval: 7 * 24 * 60 * 60 * 1000 }
@@ -181,7 +181,6 @@ let config = {
 			}
 		},
 		{
-			// also the CALENDAR_EVENTS broadcast source for MMM-MonthlyCalendar
 			module: "calendar",
 			classes: "page-home",
 			position: "middle_center",
@@ -209,16 +208,31 @@ let config = {
 			config: { grid: NWS_GRID, hours: 12, updateMinutes: 20 }
 		},
 
-		// ---- PAGE 2: Calendar (month grid) ----
+		// ---- PAGE 2: Calendar (rolling weeks) ----
 		{
-			module: "MMM-MonthlyCalendar",
+			// invisible (hidden via custom.css) — exists only to broadcast a wide
+			// CALENDAR_EVENTS range for MMM-RollingCalendar. Kept separate from the
+			// Home page's calendar instance, which is capped to a short window for
+			// its own "Coming Up" list.
+			module: "calendar",
+			classes: "page-cal calendar-events-source",
+			position: "bottom_bar",
+			config: {
+				maximumEntries: 10000,
+				maximumNumberOfDays: 180,
+				broadcastPastEvents: true,
+				broadcastEvents: true,
+				calendars: CALENDARS
+			}
+		},
+		{
+			module: "MMM-RollingCalendar",
 			classes: "page-cal",
 			position: "middle_center",
 			config: {
-				mode: "currentMonth",
 				firstDayOfWeek: "sunday",
-				displaySymbol: true,
-				wrapTitles: false
+				lagWeeks: 1,
+				idleReturnMs: 60000
 			}
 		},
 

@@ -320,3 +320,10 @@ body,
 	user-select: none;
 	-webkit-touch-callout: none;
 }
+
+/* =========================================================
+   MMM-RollingCalendar's data-only source instance — never shown
+   ========================================================= */
+.calendar-events-source {
+	display: none !important;
+}
