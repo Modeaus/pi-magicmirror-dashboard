@@ -22,7 +22,15 @@
 	transition: background 0.3s ease;
 }
 
-/* Pi SoC temperature readout under the dot */
+/* row under the dot: temp readout + wifi bars, side by side */
+.claude-status-row {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 6px;
+}
+
+/* Pi SoC temperature readout */
 .claude-temp {
 	font-family: "Roboto Condensed", sans-serif;
 	font-size: 11px;
@@ -38,6 +46,34 @@
 	font-weight: 700;
 	text-shadow: 0 0 6px rgba(255, 69, 58, 0.7);
 }
+
+/* wifi signal-strength bars, next to the temp readout */
+.claude-wifi {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+	gap: 1.5px;
+	height: 10px;
+}
+.claude-wifi-bar {
+	width: 3px;
+	background: #4a4a4a; /* unfilled */
+	border-radius: 0.5px;
+	transition: background 0.3s ease;
+}
+.claude-wifi-bar:nth-child(1) { height: 40%; }
+.claude-wifi-bar:nth-child(2) { height: 60%; }
+.claude-wifi-bar:nth-child(3) { height: 80%; }
+.claude-wifi-bar:nth-child(4) { height: 100%; }
+
+.claude-wifi-excellent .claude-wifi-bar.filled { background: #4caf50; }
+.claude-wifi-good .claude-wifi-bar.filled { background: #8bc34a; }
+.claude-wifi-fair .claude-wifi-bar.filled { background: #ffb300; }
+.claude-wifi-weak .claude-wifi-bar.filled {
+	background: #ff453a;
+	box-shadow: 0 0 4px rgba(255, 69, 58, 0.6);
+}
+.claude-wifi-none .claude-wifi-bar { background: #3a3a3a; }
 
 /* working: cyan, slow breathing pulse */
 .claude-working {
