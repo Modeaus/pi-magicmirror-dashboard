@@ -51,6 +51,12 @@ couple of one-off integrations.
 - The example entity IDs, lights, sensors, and cameras baked into
   `config/profiles/*/config.js` are illustrative — swap them for your own
   Home Assistant entities.
+- **Careful with deploy direction.** If you keep a separate real `config.js` on
+  your actual device (not tracked here, e.g. because you don't want your real
+  entity IDs in a public repo), never `scp`/copy this repo's `config.js` over it
+  without reconciling entity IDs first — you'll silently replace your real
+  devices with the placeholder ones above and things will look "connected" but
+  show the wrong status.
 - `MMM-ClaudeStatus` and `MMM-TrailCam` both expose small HTTP routes on
   MagicMirror's own built-in web server (no extra server needed) so an
   external script can push a status change or notification in with a plain
